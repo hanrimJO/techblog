@@ -14,3 +14,9 @@ class PostList(ListView):
         return context
 
 
+class PostDetail(DetailView):
+    model = Post
+
+
+
+

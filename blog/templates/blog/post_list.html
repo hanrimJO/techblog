@@ -1,10 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'blog/base.html' %}
 
-</body>
-</html>
+{% block header %}
+<header class="masthead" style="background-image: url('img/home-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>HanRimJO</h1>
+            <span class="subheading"> - Start Backend Developer</span>
+          </div>
+        </div>
+      </div>
+    </div>
+</header>
+{% endblock %}
+
+
+{% block content %}
+    {% if object_list.exists %}
+        {% for p in object_list %}
+            <div class="post-preview">
+              <a href="{{ p.get_absolute_url }}">
+                    <h2 class="post-title">
+                      {{ p.title }}
+                    </h2>
+                    <h3 class="post-subtitle">
+                      {{ p.content | truncatewords:20 }}
+                    </h3>
+              </a>
+                {% if p.category %}
+                <span class="badge badge-success float-right">{{ p.category }}</span>
+                {% else %}
+                <span class="badge badge-secondary float-right">기타</span>
+                {% endif %}
+              <p class="post-meta">Posted by
+                <a href="#">{{ p.author }}</a>
+                on {{ p.created }}
+              </p>
+            </div>
+        {% endfor %}
+    {% else %}
+    <h2>게시물이 아직 없습니다</h2>
+    {% endif %}
+
+
+    <hr>
+    <!-- Pager -->
+    <div class="clearfix">
+      <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
+    </div>
+{% endblock %}
