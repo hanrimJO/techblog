@@ -89,6 +89,11 @@ class PostUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/login/'
 
 
+class PostDelete(LoginRequiredMixin, DeleteView):
+    model = Post
+    login_url = '/login/'
+    success_url = '/'
+
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']

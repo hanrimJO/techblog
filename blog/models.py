@@ -36,6 +36,9 @@ class Post(models.Model):
     def get_absolute_url(self):
         return f'/{self.pk}/'
 
+    def get_delete_url(self):
+        return f'/{self.pk}/delete/'
+
     def get_update_url(self):
         return f'/{self.pk}/update/'
 
