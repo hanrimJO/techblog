@@ -18,6 +18,9 @@
 
 
 {% block content %}
+    {% if user.is_authenticated %}
+        <button onclick="location.href='/create/'" class="btn btn-outline-info float-right">create</button>
+    {% endif %}
     {% if object_list.exists %}
         {% for p in object_list %}
             <div class="post-preview">
@@ -46,5 +49,8 @@
 
 
     <hr>
-
+<!-- Pager -->
+    <div class="clearfix">
+        <a class="btn btn-primary" href="#">Older Posts &rarr;</a>
+    </div>
 {% endblock %}

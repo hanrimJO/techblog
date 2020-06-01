@@ -31,7 +31,10 @@
 
 <!-- Post Content -->
 {% block content %}
-{{ object.get_markdown_content | safe }}
+    {% if request.user == object.author %}
+        <button type="button" onclick="location.href='{{ object.get_update_url }}'" class="btn btn-sm btn-outline-primary float-right">EDIT</button>
+    {% endif %}
+    {{ object.get_markdown_content | safe }}
 {% endblock %}
 
 

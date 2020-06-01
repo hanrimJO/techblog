@@ -1,0 +1,26 @@
+{% extends 'blog/base.html' %}
+{% block header %}
+<header class="masthead" style="background-image: url('img/home-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>New Post</h1>
+            <span class="subheading">create new post</span>
+          </div>
+        </div>
+      </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data">{% csrf_token %}
+    <table>
+        {{ form.as_table }}
+    </table>
+    <button type="submit" class="btn btn-sm btn-outline-primary float-right">Submit</button>
+</form>
+{{ form.media }}
+{% endblock %}

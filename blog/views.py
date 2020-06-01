@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from blog.models import Post, Category
-from django.views.generic import ListView, DetailView, DeleteView, UpdateView
+from django.views.generic import ListView, DetailView, DeleteView, UpdateView, CreateView
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import auth
 from django.contrib.auth.models import User
 # Create your views here.
@@ -52,7 +53,28 @@ class PostListCategory(ListView):
             context['category'] = category
         return context
 
-def login(request):
+
+class PostCreate(LoginRequiredMixin, CreateView):
+    model = Post
+    fields = ['title', 'content', 'thumbnail_image', 'category']
+    login_url = '/login/'
+
+    def form_valid(self, form):
+        current_user = self.request.user
+        if current_user.is_authenticated:
+            form.instance.author = current_user
+            return super(type(self), self).form_valid(form)
+        else:
+            return redirect('/')
+
+
+class PostUpdate(LoginRequiredMixin, UpdateView):
+    model = Post
+    fields = ['title', 'content', 'thumbnail_image', 'category']
+    login_url = '/login/'
+
+
+def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -65,6 +87,7 @@ def login(request):
     else:
         return redirect('/')
 
-def logout(request):
+
+def logout_view(request):
     auth.logout(request)
     return redirect('/')
