@@ -6,6 +6,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import auth
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 # Create your views here.
 
 
@@ -18,6 +19,20 @@ class PostList(ListView):
         context = super(PostList, self).get_context_data(**kwargs)
         context['category_list'] = Category.objects.all()
         context['posts_without_category'] = Post.objects.filter(category=None).count()
+
+        paginator = context['paginator']
+        page_numbers_range = 5
+        max_index = len(paginator.page_range)
+        page = self.request.GET.get('page')
+        current_page = int(page) if page else 1
+        start_index = int((current_page - 1)/page_numbers_range)
+        end_index = start_index + page_numbers_range
+        if end_index >= max_index:
+            end_index = max_index
+        page_range = paginator.page_range[start_index:end_index]
+        context['page_range'] = page_range
+        context['start'] = start_index
+        context['end'] = end_index
         return context
 
 
@@ -31,7 +46,7 @@ class PostDetail(DetailView):
         return context
 
 
-class PostListCategory(ListView):
+class PostListCategory(PostList):
     def get_queryset(self):
         slug = self.kwargs['slug']
         if slug == '_none':
