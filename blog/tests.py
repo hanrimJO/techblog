@@ -105,6 +105,25 @@ class TestView(TestCase):
         self.assertNotIn('django', category_div.text)
         self.assertIn('기타', category_div.text)
 
+    def test_post_with_category(self):
+        category = create_category()
+        post_000 = create_post(
+            title='the first post',
+            content='Hello World',
+            author=self.author_000,
+            created=timezone.now(),
+            modified=timezone.now(),
+            category=category
+        )
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
+        soup = BeautifulSoup(response.content, 'html.parser')
+        side_div = soup.find('div', id='side-div')
+
+        self.assertIn('django', side_div.text)
+        self.assertIn('기타', side_div.text)
+
+
 
 
 

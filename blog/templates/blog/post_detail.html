@@ -2,7 +2,11 @@
 
 
 {% block header %}
+{% if object.thumbnail_image %}
+<header class="masthead" style="background-image: url('{{ object.thumbnail_image.url }}')">
+{% else %}
 <header class="masthead" style="background-image: url('img/post-bg.jpg')">
+{% endif %}
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
