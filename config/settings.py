@@ -43,6 +43,8 @@ INSTALLED_APPS = [
 
     'markdownx',
     'crispy_forms',
+    'disqus',
+    'django.contrib.sites'
 
 ]
 
@@ -127,4 +129,7 @@ MARKDOWN_MEDIA_PATH = datetime.now().strftime('markdownx/%Y/%m/%d')
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'none'
-LOGIN_REDIRECT_URL = '/blog/'
+LOGIN_REDIRECT_URL = '/'
+
+DISQUS_WEBSITE_SHORTNAME ="hanrimjos-tech-blog"
+SITE_ID = 1
