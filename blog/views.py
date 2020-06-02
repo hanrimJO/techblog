@@ -5,6 +5,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import auth
+from django.db.models import Q
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 # Create your views here.
@@ -64,7 +65,13 @@ class PostListCategory(PostList):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(PostListCategory, self).get_context_data(**kwargs)
-        context['category_list'] = Category.objects.all()
+        category_all = Category.objects.all()
+        category_list = []
+        for i in category_all:
+            category_num = Post.objects.filter(category=i).count()
+            if category_num != 0:
+                category_list.append(i)
+        context['category_list'] = category_list
         context['posts_without_category'] = Post.objects.filter(category=None).count()
 
         slug = self.kwargs['slug']
@@ -100,6 +107,20 @@ class PostDelete(LoginRequiredMixin, DeleteView):
     model = Post
     login_url = '/login/'
     success_url = '/'
+
+
+class PostSearch(PostList):
+    def get_queryset(self):
+        q = self.kwargs['q']
+        print(q)
+        object_list = Post.objects.filter(Q(title__contains=q) | Q(content__contains=q))
+        return object_list
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(PostSearch, self).get_context_data()
+        context['search_info'] = f'Search: {self.kwargs["q"]}'
+        return context
+
 
 def login_view(request):
     if request.method == 'POST':

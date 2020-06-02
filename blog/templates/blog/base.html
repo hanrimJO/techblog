@@ -113,7 +113,7 @@
             {% block category %}
 
             {% endblock %}
-        
+
         </div>
     </div>
 
@@ -164,7 +164,17 @@
 
 <!-- Custom scripts for this template -->
 <script rel="script" src="{% static 'js/clean-blog.min.js' %}"></script>
-
+<script>
+    function search_post() {
+        var search_value = document.getElementById('search-input').value;
+        location.href = '/search/'+search_value+'/'
+    }
+    function wait_for_enter() {
+        if (window.event.keyCode == 13){
+            search_post()
+        }
+    }
+</script>
 </body>
 
 </html>
