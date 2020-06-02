@@ -17,7 +17,13 @@ class PostList(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(PostList, self).get_context_data(**kwargs)
-        context['category_list'] = Category.objects.all()
+        category_all = Category.objects.all()
+        category_list = []
+        for i in category_all:
+            category_num = Post.objects.filter(category=i).count()
+            if category_num != 0:
+                category_list.append(i)
+        context['category_list'] = category_list
         context['posts_without_category'] = Post.objects.filter(category=None).count()
 
         paginator = context['paginator']

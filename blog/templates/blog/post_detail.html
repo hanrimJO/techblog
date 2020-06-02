@@ -31,6 +31,7 @@
 
 <!-- Post Content -->
 {% block content %}
+    <div id="main-div" class="col-lg-12 col-md-12 mx-auto">
     {% if request.user == object.author %}
         <button class="btn btn-outline-danger float-right ml-1" data-toggle="modal" data-target="#DeletePostModal">Delete</button>
         <button type="button" onclick="location.href='{{ object.get_update_url }}'" class="btn btn-sm btn-outline-primary float-right">EDIT</button>
@@ -67,6 +68,7 @@
 {% load disqus_tags %}
     <div>
         {% disqus_show_comments %}
+    </div>
     </div>
 {% endblock %}
 
