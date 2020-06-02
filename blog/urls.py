@@ -11,6 +11,7 @@ urlpatterns = [
     path('category/<str:slug>/', views.PostListCategory.as_view()),
     path('create/', views.PostCreate.as_view()),
     path('search/<str:q>/', views.PostSearch.as_view()),
+    path('about_me/', views.about_me),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout')
 ]

@@ -119,6 +119,8 @@ class PostSearch(PostList):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(PostSearch, self).get_context_data()
         context['search_info'] = f'Search: {self.kwargs["q"]}'
+        q = self.kwargs['q']
+        context['search_count'] = Post.objects.filter(Q(title__contains=q) | Q(content__contains=q)).count()
         return context
 
 
@@ -139,3 +141,7 @@ def login_view(request):
 def logout_view(request):
     auth.logout(request)
     return redirect('/')
+
+
+def about_me(request):
+    return render(request, 'blog/about_me.html', {})
