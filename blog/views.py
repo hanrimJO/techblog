@@ -32,14 +32,16 @@ class PostList(ListView):
         max_index = len(paginator.page_range)
         page = self.request.GET.get('page')
         current_page = int(page) if page else 1
-        start_index = int((current_page - 1)/page_numbers_range)
+        start_index = int((current_page - 1)/page_numbers_range)*page_numbers_range
         end_index = start_index + page_numbers_range
+        print(current_page, start_index, end_index, max_index)
         if end_index >= max_index:
             end_index = max_index
         page_range = paginator.page_range[start_index:end_index]
         context['page_range'] = page_range
         context['start'] = start_index
-        context['end'] = end_index
+        context['end'] = max_index
+        print(page_range, page, start_index, end_index, max_index)
         return context
 
 
