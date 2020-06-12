@@ -97,6 +97,12 @@ class PostCreate(LoginRequiredMixin, CreateView):
             return redirect('/')
 
 
+class PostCreateCategory(LoginRequiredMixin, CreateView):
+    model = Category
+    fields = '__all__'
+    login_url = '/login/'
+
+
 class PostUpdate(LoginRequiredMixin, UpdateView):
     model = Post
     fields = ['title', 'content', 'thumbnail_image', 'category']
