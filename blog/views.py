@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from blog.models import Post, Category
 from django.views.generic import ListView, DetailView, DeleteView, UpdateView, CreateView
-from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import auth
@@ -97,11 +96,17 @@ class PostCreate(LoginRequiredMixin, CreateView):
             return redirect('/')
 
 
+
 class PostCreateCategory(LoginRequiredMixin, CreateView):
     model = Category
     fields = '__all__'
     login_url = '/login/'
+    success_url = '/create/'
 
+    def get_context_data(self, **kwargs):
+        context = super(PostCreateCategory, self).get_context_data()
+        context['category_list'] = Category.objects.all()
+        return context
 
 class PostUpdate(LoginRequiredMixin, UpdateView):
     model = Post

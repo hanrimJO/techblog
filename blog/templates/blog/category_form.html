@@ -6,8 +6,8 @@
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="site-heading">
-            <h1>New Post</h1>
-            <span class="subheading">create new post</span>
+            <h1>New Category</h1>
+            <span class="subheading">create new category</span>
           </div>
         </div>
       </div>
@@ -15,13 +15,17 @@
 </header>
 {% endblock %}
 
-{% block content %}
+{% block createcategory %}
+<div class="row">
+    <h3>카테고리 목록</h3>
+</div>
+{% for c in category_list %}
+    <span>{{ forloop.counter }}.{{ c.name }}</span>
+{% endfor %}
 <form method="post" enctype="multipart/form-data">{% csrf_token %}
     <table>
         {{ form.as_table }}
     </table>
     <button class="btn btn-sm btn-outline-danger" onclick="location.href='/create-category/'">create-category</button>
-    <button type="submit" class="btn btn-sm btn-outline-primary float-right">Submit</button>
 </form>
-{{ form.media }}
 {% endblock %}

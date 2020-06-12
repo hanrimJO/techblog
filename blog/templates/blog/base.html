@@ -65,9 +65,6 @@
                     <a class="nav-link" href="/about_me/">About</a>
                 </li>
                 {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link" href="/create-category/">create-category</a>
-                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">{{ user }} <span
                             class="caret"></span></a>
@@ -97,6 +94,8 @@
 
 <!-- Main Content -->
 <div class="container">
+    {% block createcategory %}
+    {% endblock %}
     <div class="row">
             {% block content %}
 
