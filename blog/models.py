@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdown
+from uuid import uuid4
 
 # Create your models here.
 
@@ -20,11 +21,15 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = 'categories'
 
+def image_path(instance, filename):
+    uuid = uuid4()
+    ext = filename.split('.')[-1]
+    return f'{uuid}.{ext}'
 
 class Post(models.Model):
     title = models.CharField(max_length=50)
     content = MarkdownxField()
-    thumbnail_image = models.ImageField(upload_to='blog/%Y/%m/%d', blank=True)
+    thumbnail_image = models.ImageField(upload_to=image_path, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
